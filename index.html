@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free CL → Conversión | Chipax</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap');
+  :root {
+    --bg:#f5f6fa;--surface:#ffffff;--surface2:#f0f1f7;--border:#e2e4ee;
+    --text:#1a1d2e;--muted:#6b7280;--muted2:#9ca3af;
+    --alta:#059669;--alta-bg:#ecfdf5;--alta-bd:#6ee7b7;
+    --media:#d97706;--media-bg:#fffbeb;--media-bd:#fcd34d;
+    --baja:#4f7fff;--baja-bg:#eff6ff;--baja-bd:#bfdbfe;
+    --rev:#dc2626;--rev-bg:#fef2f2;--rev-bd:#fca5a5;
+    --acc:#4f7fff;--multi:#7c3aed;--multi-bg:#f5f3ff;--multi-bd:#c4b5fd;
+    --warn-bg:#fff7ed;--warn-bd:#fed7aa;--warn-text:#c2410c;
+    --shadow:0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.05);
+    --shadow-md:0 4px 6px -1px rgba(0,0,0,.07),0 2px 4px -1px rgba(0,0,0,.04);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.6}
+  a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:18px 36px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;box-shadow:var(--shadow)}
+  .logo{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+  header h1{font-size:17px;font-weight:700;color:var(--text)}header h1 span{color:var(--acc)}
+  .upd{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;background:var(--surface2);padding:4px 10px;border-radius:20px;border:1px solid var(--border)}
+
+  main{padding:24px 36px;max-width:1520px;margin:0 auto}
+  section{margin-bottom:36px}
+  h2{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:13px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+  /* KPI */
+  .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;box-shadow:var(--shadow)}
+  .kpi.ka{border-top:3px solid var(--alta);background:var(--alta-bg)}
+  .kpi.km{border-top:3px solid var(--media);background:var(--media-bg)}
+  .kpi.kb{border-top:3px solid var(--baja);background:var(--baja-bg)}
+  .kpi.kr{border-top:3px solid var(--rev);background:var(--rev-bg)}
+  .kn{font-size:32px;font-weight:700;line-height:1;margin-bottom:3px}
+  .ka .kn{color:var(--alta)}.km .kn{color:var(--media)}.kb .kn{color:var(--baja)}.kr .kn{color:var(--rev)}
+  .kl{font-size:12px;color:var(--muted);font-weight:500}.ks{font-size:10px;color:var(--muted2);font-family:'DM Mono',monospace;margin-top:2px}
+
+  /* RULES */
+  .rules{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .rule{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;box-shadow:var(--shadow)}
+  .ri{font-size:16px;flex-shrink:0;margin-top:1px}.rt{font-size:12px;line-height:1.5}
+  .rt strong{font-weight:600;display:block;margin-bottom:2px}
+  .rno .rt strong{color:var(--rev)}.ralt .rt strong{color:var(--alta)}.rmed .rt strong{color:var(--media)}
+  .rbaj .rt strong{color:var(--baja)}.rmon .rt strong{color:var(--muted)}.rmul .rt strong{color:var(--multi)}
+
+  /* ALERTA G2 */
+  .alert-box{background:var(--warn-bg);border:1px solid var(--warn-bd);border-radius:8px;padding:12px 16px;font-size:12.5px;color:var(--warn-text);display:flex;gap:10px;align-items:flex-start;margin-bottom:14px}
+  .alert-box .icon{font-size:16px;flex-shrink:0}
+
+  /* CS CARDS */
+  .cs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+  .csc{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+  .csc.inac{border-color:var(--rev-bd);border-top:2px solid var(--rev)}
+  .csc.warn{border-color:var(--warn-bd);border-top:2px solid var(--media)}
+  .csh{padding:11px 14px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .csh.inac{background:var(--rev-bg)}.csh.warn{background:var(--warn-bg)}
+  .csn{font-weight:600;font-size:12.5px;color:var(--text)}.csn.inac{color:var(--rev)}.csn.warn{color:var(--warn-text)}
+  .csb{display:flex;gap:4px;flex-wrap:wrap}
+  .bdg{font-size:9px;font-weight:700;font-family:'DM Mono',monospace;padding:2px 6px;border-radius:4px}
+  .ba{background:var(--alta-bg);color:var(--alta);border:1px solid var(--alta-bd)}
+  .bm{background:var(--media-bg);color:var(--media);border:1px solid var(--media-bd)}
+  .bb{background:var(--baja-bg);color:var(--baja);border:1px solid var(--baja-bd)}
+  .br{background:var(--rev-bg);color:var(--rev);border:1px solid var(--rev-bd)}
+  .bw{background:var(--warn-bg);color:var(--warn-text);border:1px solid var(--warn-bd)}
+  .csb2{padding:10px 12px;display:flex;flex-direction:column;gap:5px}
+  .dr{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;background:var(--bg);border:1px solid var(--border)}
+  .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+  .dot.a{background:var(--alta)}.dot.m{background:var(--media)}.dot.b{background:var(--baja)}.dot.r{background:var(--rev)}
+  .dn{font-size:11px;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
+  .da{font-size:10px;color:var(--muted);white-space:nowrap}
+  .dtag{font-size:9px;padding:1px 5px;border-radius:3px;font-family:'DM Mono',monospace;background:var(--surface);color:var(--muted);border:1px solid var(--border);white-space:nowrap;flex-shrink:0}
+
+  /* FILTERS */
+  .fb-row{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap;align-items:center}
+  .fb{padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-family:'Inter',sans-serif;transition:all .15s}
+  .fb:hover{border-color:var(--acc);color:var(--acc)}
+  .fb.active{border-color:var(--acc);background:var(--baja-bg);color:var(--acc)}
+  .fb.fa.active{border-color:var(--alta-bd);background:var(--alta-bg);color:var(--alta)}
+  .fb.fm.active{border-color:var(--media-bd);background:var(--media-bg);color:var(--media)}
+  .fb.fbj.active{border-color:var(--baja-bd);background:var(--baja-bg);color:var(--baja)}
+  .fb.fr.active{border-color:var(--rev-bd);background:var(--rev-bg);color:var(--rev)}
+  .fb.fg1.active{border-color:rgba(79,127,255,.4);background:var(--baja-bg);color:var(--acc)}
+  .fb.fg2.active{border-color:var(--multi-bd);background:var(--multi-bg);color:var(--multi)}
+
+  /* TABLE */
+  .nota{background:var(--baja-bg);border:1px solid var(--baja-bd);border-left:3px solid var(--baja);border-radius:0 6px 6px 0;padding:9px 13px;font-size:11.5px;color:var(--muted);margin-bottom:12px}
+  .nota strong{color:var(--text)}
+  .tw{overflow-x:auto;border-radius:10px;border:1px solid var(--border);box-shadow:var(--shadow)}
+  table{width:100%;border-collapse:collapse;font-size:11.5px;white-space:nowrap}
+  thead th{text-align:left;padding:10px 12px;font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);background:var(--surface2)}
+  tbody tr{border-bottom:1px solid var(--border);transition:background .1s;background:var(--surface)}
+  tbody tr:hover{background:var(--surface2)}
+  td{padding:9px 12px;vertical-align:middle}
+  td.emp{font-weight:600;max-width:190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text)}
+  td.mono{font-family:'DM Mono',monospace;font-size:10.5px;color:var(--muted)}td.mut{color:var(--muted)}
+
+  .pill{display:inline-block;padding:2px 8px;border-radius:4px;font-size:9.5px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:.02em;white-space:nowrap}
+  .pa{background:var(--alta-bg);color:var(--alta);border:1px solid var(--alta-bd)}
+  .pm{background:var(--media-bg);color:var(--media);border:1px solid var(--media-bd)}
+  .pb{background:var(--baja-bg);color:var(--baja);border:1px solid var(--baja-bd)}
+  .pr{background:var(--rev-bg);color:var(--rev);border:1px solid var(--rev-bd)}
+  .pg1{background:var(--baja-bg);color:var(--acc);border:1px solid var(--baja-bd)}
+  .pg2{background:var(--multi-bg);color:var(--multi);border:1px solid var(--multi-bd)}
+  .pw{background:var(--warn-bg);color:var(--warn-text);border:1px solid var(--warn-bd);font-style:italic}
+  .pval{background:#f0fdf4;color:#15803d;border:1px solid #86efac;font-style:italic;font-size:9px}
+
+  .us{color:var(--alta);font-weight:700}.uso{color:var(--media);font-weight:700}.un{color:var(--rev)}
+
+  /* ENFOQUES */
+  .enf-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .enf{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;box-shadow:var(--shadow)}
+  .enf.ea{border-left:3px solid var(--alta)}.enf.em{border-left:3px solid var(--media)}
+  .enf.eb{border-left:3px solid var(--baja)}.enf.er{border-left:3px solid var(--rev)}
+  .etag{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-family:'DM Mono',monospace;margin-bottom:5px}
+  .ea .etag{color:var(--alta)}.em .etag{color:var(--media)}.eb .etag{color:var(--baja)}.er .etag{color:var(--rev)}
+  .etit{font-size:13px;font-weight:700;margin-bottom:8px;color:var(--text)}
+  .eit{display:flex;flex-direction:column;gap:4px}
+  .ei{font-size:12px;color:var(--muted);display:flex;gap:6px}
+  .ei::before{content:"→";color:var(--muted2);flex-shrink:0}
+  .esp{margin-top:10px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .ec{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;box-shadow:var(--shadow)}
+  .et{font-size:9.5px;font-weight:700;font-family:'DM Mono',monospace;color:var(--acc);margin-bottom:5px;letter-spacing:.06em}
+  .ec p{font-size:11.5px;color:var(--muted);line-height:1.5}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">Chipax · CRM Analytics · Datos reales HubSpot</div>
+    <h1>Free CL → <span>Conversión</span></h1>
+  </div>
+  <div class="upd">Actualizado: 26 Abr 2026</div>
+</header>
+
+<main>
+
+<!-- KPIs -->
+<section>
+  <h2>Resumen ejecutivo</h2>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kn" style="color:var(--text)">45</div><div class="kl">Total analizados</div><div class="ks">G1: 35 · G2: 10</div></div>
+    <div class="kpi ka"><div class="kn">6</div><div class="kl">Alta prioridad</div><div class="ks">Contactar esta semana</div></div>
+    <div class="kpi km"><div class="kn">7</div><div class="kl">Media prioridad</div><div class="ks">Reconectar primero</div></div>
+    <div class="kpi kb"><div class="kn">15</div><div class="kl">Baja prioridad</div><div class="ks">Monitorear</div></div>
+    <div class="kpi kr"><div class="kn">17</div><div class="kl">Revisar / No contactar</div><div class="ks">Resolver primero</div></div>
+  </div>
+</section>
+
+<!-- REGLAS -->
+<section>
+  <h2>Reglas de decisión</h2>
+  <div class="rules">
+    <div class="rule ralt"><span class="ri">🟢</span><div class="rt"><strong>Alta</strong>Uso post-churn sostenido O actividad reciente clara. Sin deuda. +90d desde churn. Prob. financieros: +90d Y uso sostenido Y señales de recuperación.</div></div>
+    <div class="rule rmed"><span class="ri">🟡</span><div class="rt"><strong>Media</strong>Señales parciales: actividad sin uso fuerte, prob.fin en 60–90d, G2 con uso pero CS bloqueada, o churn reciente con facturación interesante.</div></div>
+    <div class="rule rbaj"><span class="ri">🔵</span><div class="rt"><strong>Baja</strong>Sin uso post-churn. Sin actividad reciente. Facturación histórica alta no sube prioridad si no hay uso actual.</div></div>
+    <div class="rule rno"><span class="ri">🚫</span><div class="rt"><strong>Revisar</strong>Deuda activa · competencia · CS inactiva · churn &lt;90d · data sin actividad +12 meses.</div></div>
+    <div class="rule rmon"><span class="ri">⏸️</span><div class="rt"><strong>Churn &lt;90d → siempre Revisar</strong>Aunque tenga uso temprano. Puede ser inercia, no intención de compra.</div></div>
+    <div class="rule rmul"><span class="ri">🔗</span><div class="rt"><strong>G2 Multiempresa</strong>Confirmado ✓ / Probable ~ / Incierto ?. No es Alta automática. Solo Alta si tiene actividad reciente O uso actual.</div></div>
+  </div>
+</section>
+
+<!-- NOTA G2 -->
+<section>
+  <h2>Nota sobre Grupo 2 — Multiempresa</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+    <div style="background:var(--surface);border:1px solid var(--alta-bd);border-radius:8px;padding:14px;box-shadow:var(--shadow)">
+      <div style="font-size:10px;font-weight:700;color:var(--alta);font-family:'DM Mono',monospace;letter-spacing:.08em;margin-bottom:6px">✅ G2 CONFIRMADO — hermana en CS</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.8">
+        <strong style="color:var(--text)">GRUPO AVANZA SPA</strong> — Madre · hijas activas en CS<br>
+        <strong style="color:var(--text)">TDV Servicios</strong> — Hija · grupo con CS activo<br>
+        <strong style="color:var(--text)">Cerro Tronador SpA</strong> — Hija · grupo con CS activo<br>
+        <strong style="color:var(--text)">DE LA COSTA RENTA A CAR</strong> — Hija de Higer Chile (CS)<br>
+        <strong style="color:var(--text)">Asesorías Tamarugal</strong> — Hija · CS conocido<br>
+        <strong style="color:var(--text)">Servicios FinDuo III</strong> — Hija confirmada
+      </div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--media-bd);border-radius:8px;padding:14px;box-shadow:var(--shadow)">
+      <div style="font-size:10px;font-weight:700;color:var(--media);font-family:'DM Mono',monospace;letter-spacing:.08em;margin-bottom:6px">~ G2 PROBABLE — señales de grupo</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.8">
+        <strong style="color:var(--text)">Soc. Agrícola Tizona / Transportes Ezquerra</strong> — misma cuenta, naming y contacto compartido<br>
+        <strong style="color:var(--text)">ASESORIAS MPMS SPA</strong> — Madre · contexto comercial claro<br>
+        <strong style="color:var(--text)">Sociedad Felinus Spa</strong> — Madre · grupo conocido<br>
+        Estos SÍ deben considerarse para prospección.
+      </div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--rev-bd);border-radius:8px;padding:14px;box-shadow:var(--shadow)">
+      <div style="font-size:10px;font-weight:700;color:var(--rev);font-family:'DM Mono',monospace;letter-spacing:.08em;margin-bottom:6px">? G2 INCIERTO — validar antes de contactar</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.8">
+        FINFIT · KALTECH · EFDN · Importadora Matri · Ground Chile · Jardín de Joyas · ASESORIAS GPARTNERS · Finfit asesorias<br><br>
+        Solo el flag <code>multiempresa</code> sin señales adicionales. Revisar en HubSpot antes de prospectar.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POR EJECUTIVA -->
+<section>
+  <h2>Por ejecutiva CS</h2>
+  <div class="cs-grid">
+
+    <div class="csc">
+      <div class="csh"><span class="csn">María Jesús Ibarra</span><div class="csb"><span class="bdg ba">2 Alta</span><span class="bdg bm">2 Media</span><span class="bdg bb">6 Baja</span><span class="bdg br">3 Rev.</span></div></div>
+      <div class="csb2">
+        <div class="dr"><div class="dot a"></div><span class="dn">REVOLUTION PET SpA</span><span class="dtag">G1</span><span class="da">Contactar</span></div>
+        <div class="dr"><div class="dot a"></div><span class="dn">Adiós Gluten Spa</span><span class="dtag">G1</span><span class="da">Contactar</span></div>
+        <div class="dr"><div class="dot m"></div><span class="dn">Carnes del Ranco</span><span class="dtag">G1</span><span class="da">Reconectar</span></div>
+        <div class="dr"><div class="dot m"></div><span class="dn">Asesorías Tamarugal</span><span class="dtag">G2 ✓</span><span class="da">Sin uso — validar</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">Vida Bake</span><span class="dtag">G1</span><span class="da">Monitorear</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">Neumaservice</span><span class="dtag">G1</span><span class="da">Monitorear</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">Secretos SPA</span><span class="dtag">G1</span><span class="da">Monitorear</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">Estilo vao spa</span><span class="dtag">G1</span><span class="da">Monitorear</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">Sociedad Felinus Spa</span><span class="dtag">G1 G2~</span><span class="da">Monitorear</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">Jardín de Joyas</span><span class="dtag">G1</span><span class="da">Monitorear</span></div>
+        <div class="dr"><div class="dot r"></div><span class="dn">ENOD CHILE S.A.</span><span class="dtag">G1</span><span class="da">Sin actividad</span></div>
+        <div class="dr"><div class="dot r"></div><span class="dn">Jardín de Joyas</span><span class="dtag">G1</span><span class="da">Sin actividad</span></div>
+        <div class="dr"><div class="dot r"></div><span class="dn">Fundación Travolution</span><span class="dtag">G1</span><span class="da">CS inactiva</span></div>
+      </div>
+    </div>
+
+    <div class="csc">
+      <div class="csh"><span class="csn">Jhoany Díaz</span><div class="csb"><span class="bdg bm">1 Media</span><span class="bdg bb">1 Baja</span><span class="bdg br">3 Rev.</span></div></div>
+      <div class="csb2">
+        <div class="dr"><div class="dot m"></div><span class="dn">Mercado Premium SPA</span><span class="dtag">G1</span><span class="da">Prob.fin +90d, sin uso post-churn</span></div>
+        <div class="dr"><div class="dot m"></div><span class="dn">BlancaEstudio</span><span class="dtag">G1</span><span class="da">Activa — entender razón Free</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">Wmaderas SPA</span><span class="dtag">G1</span><span class="da">Monitorear</span></div>
+        <div class="dr"><div class="dot r"></div><span class="dn">El Fogon de Pepe</span><span class="dtag">G1</span><span class="da">&lt;90d desde churn</span></div>
+        <div class="dr"><div class="dot r"></div><span class="dn">Cervecería LOA</span><span class="dtag">G1</span><span class="da">🚫 Competencia</span></div>
+        <div class="dr"><div class="dot r"></div><span class="dn">Kull Business</span><span class="dtag">G1</span><span class="da">⚠️ Deuda $280K</span></div>
+        <div class="dr"><div class="dot r"></div><span class="dn">GoandSale</span><span class="dtag">G1</span><span class="da">⚠️ Deuda + &lt;90d</span></div>
+      </div>
+    </div>
+
+    <div class="csc">
+      <div class="csh"><span class="csn">Sofía Depetris</span><div class="csb"><span class="bdg ba">2 Alta</span><span class="bdg bb">6 Baja</span><span class="bdg br">2 Rev.</span></div></div>
+      <div class="csb2">
+        <div class="dr"><div class="dot a"></div><span class="dn">Presente.cl Ltda.</span><span class="dtag">G1</span><span class="da">Contactar</span></div>
+        <div class="dr"><div class="dot a"></div><span class="dn">GRUPO AVANZA SPA</span><span class="dtag">G2 ✓</span><span class="da">¿Por qué Madre en Free?</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">Cap. BIG Group</span><span class="dtag">G1</span><span class="da">Sin actividad reciente</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">FINFIT</span><span class="dtag">G1 G2?</span><span class="da">Monitorear</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">KALTECH SPA</span><span class="dtag">G1 G2?</span><span class="da">Monitorear</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">EFDN SPA</span><span class="dtag">G1 G2?</span><span class="da">Monitorear</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">Importadora Matri</span><span class="dtag">G1 G2?</span><span class="da">Monitorear</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">Ground Chile</span><span class="dtag">G1 G2?</span><span class="da">Fact. cero</span></div>
+        <div class="dr"><div class="dot r"></div><span class="dn">ASESORIAS GPARTNERS</span><span class="dtag">G1 G2?</span><span class="da">Fact. cero</span></div>
+        <div class="dr"><div class="dot r"></div><span class="dn">Finfit asesorias</span><span class="dtag">G1</span><span class="da">⚠️ Deuda $83K</span></div>
+      </div>
+    </div>
+
+    <div class="csc">
+      <div class="csh"><span class="csn">Maria Paz Fernandez</span><div class="csb"><span class="bdg ba">1 Alta</span><span class="bdg bb">2 Baja</span></div></div>
+      <div class="csb2">
+        <div class="dr"><div class="dot a"></div><span class="dn">REVOLUTION PET SpA</span><span class="dtag">G1</span><span class="da">Contactar</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">Coblan Investment SpA</span><span class="dtag">G1</span><span class="da">Sin uso reciente</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">iot4life spa</span><span class="dtag">G1</span><span class="da">Monitorear</span></div>
+      </div>
+    </div>
+
+    <div class="csc">
+      <div class="csh"><span class="csn">Francisca Velasco</span><div class="csb"><span class="bdg bb">3 Baja</span></div></div>
+      <div class="csb2">
+        <div class="dr"><div class="dot b"></div><span class="dn">Ikigai Spa</span><span class="dtag">G1</span><span class="da">Sin uso reciente (+9m)</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">Neumaservice</span><span class="dtag">G1</span><span class="da">Monitorear</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">Quesos Bernadette</span><span class="dtag">G1</span><span class="da">Monitorear</span></div>
+      </div>
+    </div>
+
+    <div class="csc" style="border-top:2px solid var(--baja)">
+      <div class="csh" style="background:var(--baja-bg)"><span class="csn" style="color:var(--baja)">Sin CS asignado</span><div class="csb"><span class="bdg ba">1 Alta</span><span class="bdg bm">2 Media</span><span class="bdg bb">2 Baja</span></div></div>
+      <div class="csb2">
+        <div class="dr"><div class="dot a"></div><span class="dn">VIREC SPA</span><span class="dtag">G1</span><span class="da">Asignar CS urgente</span></div>
+        <div class="dr"><div class="dot m"></div><span class="dn">TDV Servicios</span><span class="dtag">G2 ✓</span><span class="da">Asignar CS — uso activo</span></div>
+        <div class="dr"><div class="dot m"></div><span class="dn">DE LA COSTA RENTA A CAR</span><span class="dtag">G2 ✓</span><span class="da">Asignar CS — uso activo</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">Transp. Ezquerra</span><span class="dtag">G2~</span><span class="da">Sin uso reciente</span></div>
+        <div class="dr"><div class="dot b"></div><span class="dn">Soc. Agrícola Tizona</span><span class="dtag">G2~</span><span class="da">Fact. cero</span></div>
+      </div>
+    </div>
+
+    <div class="csc inac">
+      <div class="csh inac"><span class="csn inac">Javiera Ortega <span style="font-size:10px;color:var(--muted);font-weight:400">· inactiva</span></span><div class="csb"><span class="bdg br">⚠️ Reasignar todo</span></div></div>
+      <div class="csb2">
+        <div class="dr"><div class="dot r"></div><span class="dn">76.726.189-6 (Pasó a Free)</span><span class="dtag">G1</span><span class="da">Reasignar</span></div>
+        <div class="dr"><div class="dot r"></div><span class="dn">Poliestirec Chile</span><span class="dtag">G1</span><span class="da">Activa — urgente</span></div>
+        <div class="dr"><div class="dot r"></div><span class="dn">Imobi (Pasó a Free)</span><span class="dtag">G1</span><span class="da">Deuda + reasignar</span></div>
+        <div class="dr"><div class="dot r"></div><span class="dn">ASESORIAS MPMS SPA</span><span class="dtag">G2 ?</span><span class="da">Validar + reasignar</span></div>
+      </div>
+    </div>
+
+    <div class="csc inac" style="border-color:var(--warn-bd);border-top-color:var(--warn-text)">
+      <div class="csh" style="background:var(--warn-bg)"><span class="csn" style="color:var(--warn-text)">Wally Noguera <span style="font-size:10px;color:var(--muted);font-weight:400">· inactiva</span></span><div class="csb"><span class="bdg bw">⚠️ Reasignar</span></div></div>
+      <div class="csb2">
+        <div class="dr"><div class="dot m"></div><span class="dn">Cerro Tronador SpA</span><span class="dtag">G2 ✓</span><span class="da">Uso activo — reasignar urgente</span></div>
+        <div class="dr"><div class="dot r"></div><span class="dn">Servicios FinDuo III</span><span class="dtag">G2 ✓</span><span class="da">Reasignar</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TABLA -->
+<section>
+  <h2>Tabla completa — datos reales HubSpot</h2>
+  <div class="nota"><strong>Uso post-churn:</strong> "Sostenido" = last_match reciente y posterior a desactiva_plan. "Sí" = al menos una conciliación post-churn. "—" = no separable. · <strong>G2 ✓</strong> = empresa hermana en CS confirmada · <strong>G2 ?</strong> = requiere validación manual.</div>
+  <div class="fb-row">
+    <span style="font-size:10px;color:var(--muted);margin-right:2px">Filtrar:</span>
+    <button class="fb active" onclick="ft('all',this)">Todos</button>
+    <button class="fb fa" onclick="ft('alta',this)">Alta</button>
+    <button class="fb fm" onclick="ft('media',this)">Media</button>
+    <button class="fb fbj" onclick="ft('baja',this)">Baja</button>
+    <button class="fb fr" onclick="ft('rev',this)">Revisar</button>
+    <button class="fb fg1" onclick="ft('g1',this)">Grupo 1</button>
+    <button class="fb fg2" onclick="ft('g2',this)">Grupo 2</button>
+  </div>
+  <div class="tw"><table id="T">
+    <thead><tr>
+      <th>Empresa</th><th>Grupo</th><th>CS Responsable</th><th>Prioridad</th>
+      <th>Desactiva / Churn</th><th>Días desde</th><th>Last seen</th>
+      <th>Últ. conciliación</th><th>Uso post-churn</th>
+      <th>Facturación 90d</th><th>Razón churn</th><th>Acción</th>
+    </tr></thead>
+    <tbody>
+
+<!-- ALTA -->
+<tr data-p="alta" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/21150557090" target="_blank">REVOLUTION PET SpA</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Ma.Paz / MJ Ibarra</td><td><span class="pill pa">ALTA</span></td><td class="mono">Sep 2025</td><td class="mono">~239d</td><td class="mono">23 Abr 26</td><td class="mono">23 Abr 26</td><td><span class="uso">Sostenido</span></td><td class="mono">$34.5M</td><td class="mut">No lo usa</td><td class="mut">Contactar esta semana</td></tr>
+<tr data-p="alta" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/19853860704" target="_blank">VIREC SPA</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Sin CS ⚠️</td><td><span class="pill pa">ALTA</span></td><td class="mono">Oct 2024</td><td class="mono">~573d</td><td class="mono">23 Abr 26</td><td class="mono">23 Abr 26</td><td><span class="uso">Sostenido</span></td><td class="mono">$552.3M</td><td class="mut">Cambio Gerencia</td><td class="mut">Asignar CS urgente + contactar</td></tr>
+<tr data-p="alta" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/9645140351" target="_blank">Presente.cl Ltda.</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Sofía Depetris</td><td><span class="pill pa">ALTA</span></td><td class="mono">Sep 2024</td><td class="mono">~579d</td><td class="mono">23 Abr 26</td><td class="mono">23 Abr 26</td><td><span class="uso">Sostenido</span></td><td class="mono">$84.3M</td><td class="mut">No lo usa</td><td class="mut">Contactar esta semana</td></tr>
+<tr data-p="media" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/22124012043" target="_blank">Mercado Premium SPA</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Jhoany Díaz</td><td><span class="pill pm">MEDIA</span></td><td class="mono">Dic 2025</td><td class="mono">~147d</td><td class="mono">09 Abr 26</td><td class="mono">Dic 2025</td><td><span class="un">No post-churn</span></td><td class="mono">$17.9M</td><td class="mut">Prob. financieros</td><td class="mut">+90d pero sin uso — reconectar</td></tr>
+<tr data-p="alta" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/14322060324" target="_blank">Adiós Gluten Spa</a></td><td><span class="pill pg1">G1</span></td><td class="mut">MJ Ibarra</td><td><span class="pill pa">ALTA</span></td><td class="mono">May 2025</td><td class="mono">~361d</td><td class="mono">Sep 2025</td><td class="mono">Sep 2025</td><td><span class="uso">Sostenido</span></td><td class="mono">$26.7M</td><td class="mut">Precio</td><td class="mut">Contactar — uso activo post-churn</td></tr>
+<tr data-p="alta" data-g="g2"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/43540816249" target="_blank">GRUPO AVANZA SPA</a></td><td><span class="pill pg2">G2 ✓ Madre</span></td><td class="mut">Sofía Depetris</td><td><span class="pill pa">ALTA</span></td><td class="mono">—</td><td class="mono">—</td><td class="mono">15 Abr 26</td><td class="mono">09 Abr 26</td><td><span class="us">Sí</span></td><td class="mono">$222.3M</td><td class="mut">—</td><td class="mut">¿Por qué empresa Madre está en Free?</td></tr>
+<tr data-p="rev" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/32949152617" target="_blank">El Fogon de Pepe</a></td><td><span class="pill pg1">G1</span></td><td class="mut">MJ Ibarra</td><td><span class="pill pr">REVISAR</span></td><td class="mono">Feb 2026</td><td class="mono">~84d</td><td class="mono">28 Ene 26</td><td class="mono">Dic 2025</td><td><span class="un">No post-feb</span></td><td class="mono">$51.2M</td><td class="mut">Issues no resueltos</td><td class="mut">Churn &lt;90d — esperar + resolver issue</td></tr>
+
+<!-- MEDIA -->
+<tr data-p="baja" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/19765823649" target="_blank">Carnes del Ranco</a></td><td><span class="pill pg1">G1</span></td><td class="mut">MJ Ibarra</td><td><span class="pill pb">BAJA</span></td><td class="mono">Jul 2025</td><td class="mono">~299d</td><td class="mono">Jul 2025</td><td class="mono">Jun 2025</td><td><span class="un">No reciente</span></td><td class="mono">$54.0M</td><td class="mut">No lo usa</td><td class="mut">Sin actividad desde Jul — monitorear</td></tr>
+<tr data-p="media" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/35772497669" target="_blank">Vida Bake</a></td><td><span class="pill pg1">G1</span></td><td class="mut">MJ Ibarra</td><td><span class="pill pm">MEDIA</span></td><td class="mono">Nov 2025</td><td class="mono">~158d</td><td class="mono">Oct 2025</td><td class="mono">Sep 2025</td><td><span class="us">Sí</span></td><td class="mono">$1.9M</td><td class="mut">No lo usa</td><td class="mut">Señales débiles — reconectar con cautela</td></tr>
+<tr data-p="baja" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/20018025250" target="_blank">Ikigai Spa</a></td><td><span class="pill pg1">G1</span></td><td class="mut">F. Velasco</td><td><span class="pill pb">BAJA</span></td><td class="mono">Jul 2025</td><td class="mono">~299d</td><td class="mono">Jun 2025</td><td class="mono">Jun 2025</td><td><span class="un">No reciente</span></td><td class="mono">$7.4M</td><td class="mut">Issues no resueltos</td><td class="mut">Sin actividad desde Jun — monitorear</td></tr>
+<tr data-p="baja" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/16820804383" target="_blank">Cap. BIG Group</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Sofía Depetris</td><td><span class="pill pb">BAJA</span></td><td class="mono">Jun 2024</td><td class="mono">~700d</td><td class="mono">Jun 2024</td><td class="mono">Jun 2024</td><td><span class="un">No</span></td><td class="mono">$6.0M</td><td class="mut">Precio</td><td class="mut">Sin actividad desde hace 2 años</td></tr>
+<tr data-p="media" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/59266949632" target="_blank">BlancaEstudio</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Jhoany Díaz</td><td><span class="pill pm">MEDIA</span></td><td class="mono">—</td><td class="mono">—</td><td class="mono">22 Abr 26</td><td class="mono">Mar 2026</td><td><span class="un">—</span></td><td class="mono">$40.1M</td><td class="mut">—</td><td class="mut">Activa — entender razón Free</td></tr>
+<tr data-p="media" data-g="g2"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/52588617608" target="_blank">TDV Servicios</a></td><td><span class="pill pg2">G2 ✓ Hija</span></td><td class="mut">Sin CS ⚠️</td><td><span class="pill pm">MEDIA</span></td><td class="mono">—</td><td class="mono">—</td><td class="mono">21 Abr 26</td><td class="mono">21 Abr 26</td><td><span class="us">Sí</span></td><td class="mono">$23.5M</td><td class="mut">—</td><td class="mut">Asignar CS — uso activo</td></tr>
+<tr data-p="media" data-g="g2"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/18272433845" target="_blank">Cerro Tronador SpA</a></td><td><span class="pill pg2">G2 ✓ Hija</span></td><td class="mut"><span class="pill pw">Wally Noguera ⚠️</span></td><td><span class="pill pm">MEDIA</span></td><td class="mono">—</td><td class="mono">—</td><td class="mono">23 Abr 26</td><td class="mono">23 Abr 26</td><td><span class="us">Sí</span></td><td class="mono">$10.6M</td><td class="mut">—</td><td class="mut">Reasignar CS primero</td></tr>
+<tr data-p="media" data-g="g2"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/54610898540" target="_blank">DE LA COSTA RENTA A CAR</a></td><td><span class="pill pg2">G2 ✓ Hija</span></td><td class="mut">Sin CS ⚠️</td><td><span class="pill pm">MEDIA</span></td><td class="mono">—</td><td class="mono">—</td><td class="mono">23 Abr 26</td><td class="mono">16 Abr 26</td><td><span class="us">Sí</span></td><td class="mono">$5.6M</td><td class="mut">—</td><td class="mut">Asignar CS — uso activo</td></tr>
+<tr data-p="baja" data-g="g2"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/50099502674" target="_blank">Asesorías Tamarugal</a></td><td><span class="pill pg2">G2 ✓ Hija</span></td><td class="mut">MJ Ibarra</td><td><span class="pill pb">BAJA</span></td><td class="mono">—</td><td class="mono">—</td><td class="mono">Nov 2025</td><td class="mono">—</td><td><span class="un">Sin uso</span></td><td class="mono">$6.4M</td><td class="mut">—</td><td class="mut">Sin actividad reciente — monitorear</td></tr>
+
+<!-- BAJA -->
+<tr data-p="baja" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/15424526674" target="_blank">Neumaservice</a></td><td><span class="pill pg1">G1</span></td><td class="mut">MJ Ibarra / F.Velasco</td><td><span class="pill pb">BAJA</span></td><td class="mono">Ago 2025</td><td class="mono">~269d</td><td class="mono">Ago 2025</td><td class="mono">Jul 2025</td><td><span class="un">No reciente</span></td><td class="mono">$13.9M</td><td class="mut">Prob. financieros</td><td class="mut">Monitorear</td></tr>
+<tr data-p="baja" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/12731205418" target="_blank">Secretos SPA</a></td><td><span class="pill pg1">G1</span></td><td class="mut">MJ Ibarra</td><td><span class="pill pb">BAJA</span></td><td class="mono">Ago 2025</td><td class="mono">~269d</td><td class="mono">Jul 2025</td><td class="mono">Jul 2025</td><td><span class="un">No reciente</span></td><td class="mono">$39.8M</td><td class="mut">Prob. financieros</td><td class="mut">Alta fact. — revisar en 60d</td></tr>
+<tr data-p="baja" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/13377962260" target="_blank">Wmaderas SPA</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Jhoany Díaz</td><td><span class="pill pb">BAJA</span></td><td class="mono">Ago 2025</td><td class="mono">~269d</td><td class="mono">Jul 2025</td><td class="mono">Jul 2025</td><td><span class="un">No reciente</span></td><td class="mono">$29.3M</td><td class="mut">Prob. financieros</td><td class="mut">Monitorear</td></tr>
+<tr data-p="baja" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/9059834241" target="_blank">Quesos Bernadette</a></td><td><span class="pill pg1">G1</span></td><td class="mut">F.Velasco / Sofía D.</td><td><span class="pill pb">BAJA</span></td><td class="mono">Jun 2025</td><td class="mono">~300d</td><td class="mono">May 2025</td><td class="mono">May 2025</td><td><span class="un">No reciente</span></td><td class="mono">$0</td><td class="mut">Prob. financieros</td><td class="mut">Fact. cero — monitorear</td></tr>
+<tr data-p="baja" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/5153835026" target="_blank">Sociedad Felinus Spa</a></td><td><span class="pill pg1">G1</span></td><td class="mut">MJ Ibarra</td><td><span class="pill pb">BAJA</span></td><td class="mono">Jun 2025</td><td class="mono">~300d</td><td class="mono">Sep 2025</td><td class="mono">Sep 2025</td><td><span class="un">No reciente</span></td><td class="mono">$289.3M</td><td class="mut">Prob. financieros</td><td class="mut">Fact. enorme — revisar si hay hija activa en CS</td></tr>
+<tr data-p="baja" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/11127101368" target="_blank">FINFIT (Pasó a Free)</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Sofía Depetris</td><td><span class="pill pb">BAJA</span></td><td class="mono">Ene 2025</td><td class="mono">~480d</td><td class="mono">Nov 2025</td><td class="mono">Jun 2025</td><td><span class="un">No reciente</span></td><td class="mono">$0</td><td class="mut">Prob. financieros</td><td class="mut">Monitorear</td></tr>
+<tr data-p="baja" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/11128850586" target="_blank">KALTECH SPA</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Sofía Depetris</td><td><span class="pill pb">BAJA</span></td><td class="mono">Jun 2025</td><td class="mono">~300d</td><td class="mono">Jul 2025</td><td class="mono">Jun 2025</td><td><span class="un">No reciente</span></td><td class="mono">$1.0M</td><td class="mut">Prob. financieros</td><td class="mut">Monitorear</td></tr>
+<tr data-p="baja" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/9059730205" target="_blank">EFDN SPA</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Sofía Depetris</td><td><span class="pill pb">BAJA</span></td><td class="mono">Jun 2025</td><td class="mono">~300d</td><td class="mono">Jul 2025</td><td class="mono">May 2025</td><td><span class="un">No reciente</span></td><td class="mono">$3.5M</td><td class="mut">Prob. financieros</td><td class="mut">Monitorear</td></tr>
+<tr data-p="baja" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/8714381074" target="_blank">Importadora Matri Ltda</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Sofía Depetris</td><td><span class="pill pb">BAJA</span></td><td class="mono">Jun 2025</td><td class="mono">~300d</td><td class="mono">Jul 2025</td><td class="mono">Jun 2025</td><td><span class="un">No reciente</span></td><td class="mono">$22.1M</td><td class="mut">Prob. financieros</td><td class="mut">Monitorear</td></tr>
+<tr data-p="baja" data-g="g2"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/40799135598" target="_blank">Transportes Ezquerra</a></td><td><span class="pill pg2">G2 ✓ Hija</span></td><td class="mut">Sin CS ⚠️</td><td><span class="pill pb">BAJA</span></td><td class="mono">—</td><td class="mono">—</td><td class="mono">Dic 2025</td><td class="mono">Nov 2025</td><td><span class="un">No reciente</span></td><td class="mono">$0.6M</td><td class="mut">—</td><td class="mut">Monitorear — asignar CS</td></tr>
+<tr data-p="baja" data-g="g2"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/40790917409" target="_blank">Soc. Agrícola Tizona</a></td><td><span class="pill pg2">G2 ✓ Hija</span></td><td class="mut">Sin CS ⚠️</td><td><span class="pill pb">BAJA</span></td><td class="mono">—</td><td class="mono">—</td><td class="mono">Mar 2026</td><td class="mono">Mar 2026</td><td><span class="un">No reciente</span></td><td class="mono">$0</td><td class="mut">—</td><td class="mut">Fact. cero — monitorear</td></tr>
+<tr data-p="baja" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/30192002829" target="_blank">Estilo vao spa</a></td><td><span class="pill pg1">G1</span></td><td class="mut">MJ Ibarra</td><td><span class="pill pb">BAJA</span></td><td class="mono">Jun 2025</td><td class="mono">~300d</td><td class="mono">May 2025</td><td class="mono">May 2025</td><td><span class="un">No reciente</span></td><td class="mono">$10.3M</td><td class="mut">Prob. financieros</td><td class="mut">Monitorear</td></tr>
+<tr data-p="baja" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/11409568564" target="_blank">iot4life spa</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Ma.Paz Fernandez</td><td><span class="pill pb">BAJA</span></td><td class="mono">Ene 2025</td><td class="mono">~480d</td><td class="mono">Ago 2025</td><td class="mono">Ago 2025</td><td><span class="un">No reciente</span></td><td class="mono">$24.9M</td><td class="mut">Prob. financieros</td><td class="mut">Monitorear</td></tr>
+
+<!-- REVISAR -->
+<tr data-p="rev" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/3270020733" target="_blank">Cervecería LOA</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Jhoany Díaz</td><td><span class="pill pr">REVISAR</span></td><td class="mono">Oct 2025</td><td class="mono">~187d</td><td class="mono">Feb 2026</td><td class="mono">Jul 2025</td><td><span class="un">—</span></td><td class="mono">$0</td><td class="mut">Competencia</td><td class="mut">🚫 Excluir definitivamente</td></tr>
+<tr data-p="rev" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/6962778175" target="_blank">Imobi (Pasó a Free)</a></td><td><span class="pill pg1">G1</span></td><td class="mut"><span class="pill pw">Javiera Ortega ⚠️</span></td><td><span class="pill pr">REVISAR</span></td><td class="mono">Oct 2025</td><td class="mono">~187d</td><td class="mono">Sep 2025</td><td class="mono">Sep 2025</td><td><span class="un">—</span></td><td class="mono">$2.7M</td><td class="mut">Desact. por deuda</td><td class="mut">⚠️ Deuda $406K + CS inactiva</td></tr>
+<tr data-p="rev" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/1180030657" target="_blank">Kull Business</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Jhoany Díaz</td><td><span class="pill pr">REVISAR</span></td><td class="mono">Sep 2025</td><td class="mono">~219d</td><td class="mono">Ago 2025</td><td class="mono">Ago 2025</td><td><span class="un">—</span></td><td class="mono">$8.6M</td><td class="mut">Prob. financieros</td><td class="mut">⚠️ Deuda $280K</td></tr>
+<tr data-p="rev" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/400679825" target="_blank">GoandSale</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Jhoany Díaz</td><td><span class="pill pr">REVISAR</span></td><td class="mono">Abr 2026</td><td class="mono">~20d</td><td class="mono">03 Abr 26</td><td class="mono">Mar 2026</td><td><span class="un">—</span></td><td class="mono">$8.6M</td><td class="mut">Prob. financieros</td><td class="mut">⚠️ Deuda $284K + &lt;90d</td></tr>
+<tr data-p="rev" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/55574820961" target="_blank">Franutrisport y Abarca</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Romina Lagos</td><td><span class="pill pr">REVISAR</span></td><td class="mono">Mar 2026</td><td class="mono">~55d</td><td class="mono">16 Abr 26</td><td class="mono">Feb 2026</td><td><span class="un">—</span></td><td class="mono">$45.2M</td><td class="mut">No lo usa</td><td class="mut">Churn hace 55d — esperar 90d</td></tr>
+<tr data-p="rev" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/13708952932" target="_blank">Poliestirec Chile</a></td><td><span class="pill pg1">G1</span></td><td class="mut"><span class="pill pw">Javiera Ortega ⚠️</span></td><td><span class="pill pr">REVISAR</span></td><td class="mono">Abr 2025</td><td class="mono">~391d</td><td class="mono">23 Abr 26</td><td class="mono">Dic 2025</td><td><span class="us">Sí</span></td><td class="mono">$1.5M</td><td class="mut">Prob. financieros</td><td class="mut">Activa hoy — reasignar CS urgente</td></tr>
+<tr data-p="rev" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/54267212353" target="_blank">76.726.189-6</a></td><td><span class="pill pg1">G1</span></td><td class="mut"><span class="pill pw">Javiera Ortega ⚠️</span></td><td><span class="pill pr">REVISAR</span></td><td class="mono">Abr 2026</td><td class="mono">~9d</td><td class="mono">Mar 2026</td><td class="mono">Ene 2026</td><td><span class="un">—</span></td><td class="mono">$13.8M</td><td class="mut">Prob. financieros</td><td class="mut">Churn hace 9d + CS inactiva</td></tr>
+<tr data-p="rev" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/13591573321" target="_blank">Finfit asesorias limita</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Sofía Depetris</td><td><span class="pill pr">REVISAR</span></td><td class="mono">Jun 2025</td><td class="mono">~300d</td><td class="mono">Jul 2025</td><td class="mono">May 2025</td><td><span class="un">—</span></td><td class="mono">$1.8M</td><td class="mut">Prob. financieros</td><td class="mut">⚠️ Deuda $83K</td></tr>
+<tr data-p="rev" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/5366103698" target="_blank">ENOD CHILE S.A.</a></td><td><span class="pill pg1">G1</span></td><td class="mut">MJ Ibarra</td><td><span class="pill pr">REVISAR</span></td><td class="mono">Jun 2025</td><td class="mono">~300d</td><td class="mono">Jun 2025</td><td class="mono">Jun 2025</td><td><span class="un">No reciente</span></td><td class="mono">$1.6M</td><td class="mut">Prob. financieros</td><td class="mut">Sin actividad + baja facturación</td></tr>
+<tr data-p="rev" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/17778245672" target="_blank">Chocolateria La Finca</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Sin CS (Rocío inactiva)</td><td><span class="pill pr">REVISAR</span></td><td class="mono">Abr 2024</td><td class="mono">~737d</td><td class="mono">Sep 2024</td><td class="mono">Sep 2024</td><td><span class="un">No reciente</span></td><td class="mono">$0</td><td class="mut">Prob. financieros</td><td class="mut">CS inactiva + fact. cero</td></tr>
+<tr data-p="rev" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/23125640351" target="_blank">Jardín de Joyas</a></td><td><span class="pill pg1">G1</span></td><td class="mut">MJ Ibarra</td><td><span class="pill pr">REVISAR</span></td><td class="mono">Nov 2025</td><td class="mono">~176d</td><td class="mono">Oct 2025</td><td class="mono">Oct 2025</td><td><span class="un">No reciente</span></td><td class="mono">$1.3M</td><td class="mut">Prob. financieros</td><td class="mut">Sin actividad desde Oct 2025</td></tr>
+<tr data-p="rev" data-g="g2"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/19739737933" target="_blank">ASESORIAS MPMS SPA</a></td><td><span class="pill pg2">G2 ? Madre</span></td><td class="mut"><span class="pill pw">Javiera Ortega ⚠️</span></td><td><span class="pill pr">REVISAR</span></td><td class="mono">Dic 2024</td><td class="mono">~512d</td><td class="mono">Nov 2024</td><td class="mono">Nov 2024</td><td><span class="un">No reciente</span></td><td class="mono">$1.1M</td><td class="mut">Prob. financieros</td><td class="mut">Validar si hermana en CS + reasignar</td></tr>
+<tr data-p="rev" data-g="g2"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/53864527453" target="_blank">Servicios FinDuo III</a></td><td><span class="pill pg2">G2 ✓ Hija</span></td><td class="mut"><span class="pill pw">Wally Noguera ⚠️</span></td><td><span class="pill pr">REVISAR</span></td><td class="mono">—</td><td class="mono">—</td><td class="mono">Ene 2026</td><td class="mono">—</td><td><span class="un">No</span></td><td class="mono">$4.2M</td><td class="mut">—</td><td class="mut">CS inactiva + cero conciliaciones</td></tr>
+<tr data-p="rev" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/14652970355" target="_blank">ASESORIAS GPARTNERS</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Sofía Depetris</td><td><span class="pill pr">REVISAR</span></td><td class="mono">Sep 2024</td><td class="mono">~572d</td><td class="mono">Dic 2025</td><td class="mono">Dic 2025</td><td><span class="un">—</span></td><td class="mono">$0</td><td class="mut">Prob. financieros</td><td class="mut">Facturación cero — revisar</td></tr>
+<tr data-p="rev" data-g="g1"><td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/400626086" target="_blank">Ground Chile</a></td><td><span class="pill pg1">G1</span></td><td class="mut">Sofía Depetris</td><td><span class="pill pr">REVISAR</span></td><td class="mono">Jul 2024</td><td class="mono">~664d</td><td class="mono">23 Abr 26</td><td class="mono">Sep 2025</td><td><span class="un">—</span></td><td class="mono">$0</td><td class="mut">Prob. financieros</td><td class="mut">Activo hoy pero fact. cero</td></tr>
+
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ENFOQUES -->
+<section>
+  <h2>Enfoque por prioridad</h2>
+  <div class="enf-grid">
+    <div class="enf ea"><div class="etag">🟢 Alta — Contactar esta semana</div><div class="etit">Uso post-churn confirmado · Sin deuda · +90d</div><div class="eit">
+      <div class="ei">Abrir con contexto del uso, no con oferta</div>
+      <div class="ei">VIREC: identificar nuevo responsable financiero post-cambio gerencia</div>
+      <div class="ei">GRUPO AVANZA (G2 Madre): ¿por qué la empresa madre no tiene plan si el grupo usa Chipax?</div>
+    </div></div>
+    <div class="enf em"><div class="etag">🟡 Media — Reconectar primero</div><div class="etit">Señales parciales · Validar contexto actual</div><div class="eit">
+      <div class="ei">Mercado Premium: prob.fin +90d pero sin uso — preguntar por operación, no proponer plan</div>
+      <div class="ei">G2 sin CS (TDV, De la Costa): asignar propietario_cs ANTES de cualquier contacto</div>
+      <div class="ei">Cerro Tronador: reasignar CS (Wally inactiva) — no contactar hasta resolver</div>
+    </div></div>
+    <div class="enf eb"><div class="etag">🔵 Baja — Monitorear</div><div class="etit">Sin uso · Sin actividad reciente</div><div class="eit">
+      <div class="ei">No invertir tiempo comercial ahora. Revisar last_seen en 45 días</div>
+      <div class="ei">Si reactivación de uso → subir a Media automáticamente</div>
+    </div></div>
+    <div class="enf er"><div class="etag">🔴 Revisar — Resolver el bloqueador</div><div class="etit">Deuda · CS inactiva · Churn &lt;90d · Competencia</div><div class="eit">
+      <div class="ei">Deuda: cobranza primero (Imobi $406K, Kull $280K, GoandSale $284K, Finfit $83K)</div>
+      <div class="ei">CS inactivas urgente: Javiera Ortega → 4 deals · Wally Noguera → 2 deals · Rocío Arias → 1</div>
+      <div class="ei">Cervecería LOA: excluir definitivamente (competencia)</div>
+    </div></div>
+  </div>
+  <div class="esp">
+    <div class="ec"><div class="et">💸 Prob. financieros</div><p>"¿Cómo está tu operación hoy?" — nunca "vuelve a pagar". Solo Alta con +90d Y uso sostenido Y facturación activa.</p></div>
+    <div class="ec"><div class="et">🔗 G2 Multiempresa</div><p>✓ Confirmado: hermana en CS. ~ Probable: naming/contacto compartido. ? Incierto: solo flag. Nunca Alta automática sin uso o actividad.</p></div>
+    <div class="ec"><div class="et">⚠️ CS inactivas</div><p>Javiera Ortega · Wally Noguera · Rocío Arias están inactivas. Sus negocios quedan bloqueados hasta reasignar propietario_cs.</p></div>
+  </div>
+</section>
+
+</main>
+<script>
+function ft(p,btn){
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#T tbody tr').forEach(r=>{
+    r.style.display=(p==='all'||r.dataset.p===p||(r.dataset.g||'').includes(p))?'':'none';
+  });
+}
+</script>
+</body>
+</html>
