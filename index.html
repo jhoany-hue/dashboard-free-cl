@@ -21,13 +21,13 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.6}
   a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
-
+ 
   /* HEADER */
   header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;box-shadow:var(--shadow)}
   .logo{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
   header h1{font-size:16px;font-weight:700}header h1 span{color:var(--acc)}
   .upd{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;background:var(--surface2);padding:4px 10px;border-radius:20px;border:1px solid var(--border)}
-
+ 
   /* TAB NAV */
   .tab-nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 32px;display:flex;gap:0}
   .tnav-btn{padding:12px 20px;font-size:12px;font-weight:600;font-family:'Inter',sans-serif;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;display:flex;align-items:center;gap:6px}
@@ -35,13 +35,13 @@
   .tnav-btn.active{color:var(--acc);border-bottom-color:var(--acc)}
   .tab-count{font-size:10px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:1px 6px;font-family:'DM Mono',monospace}
   .tnav-btn.active .tab-count{background:var(--baja-bg);border-color:var(--baja-bd);color:var(--acc)}
-
+ 
   /* TAB PANELS */
   .tab-panel{display:none}.tab-panel.active{display:block}
   main{padding:24px 32px;max-width:1600px;margin:0 auto}
   section{margin-bottom:32px}
   h2{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--border)}
-
+ 
   /* KPI */
   .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
   .kpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;box-shadow:var(--shadow)}
@@ -52,7 +52,7 @@
   .kn{font-size:32px;font-weight:700;line-height:1;margin-bottom:3px}
   .ka .kn{color:var(--alta)}.km .kn{color:var(--media)}.kb .kn{color:var(--baja)}.kr .kn{color:var(--rev)}
   .kl{font-size:12px;color:var(--muted);font-weight:500}.ks{font-size:10px;color:var(--muted2);font-family:'DM Mono',monospace;margin-top:2px}
-
+ 
   /* RULES */
   .rules{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
   .rule{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;box-shadow:var(--shadow)}
@@ -60,13 +60,13 @@
   .rt strong{font-weight:600;display:block;margin-bottom:2px}
   .rno .rt strong{color:var(--rev)}.ralt .rt strong{color:var(--alta)}.rmed .rt strong{color:var(--media)}
   .rbaj .rt strong{color:var(--baja)}.rmon .rt strong{color:var(--muted)}.rmul .rt strong{color:var(--multi)}
-
+ 
   /* FACT LEGEND */
   .fact-legend{display:flex;gap:16px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 16px;margin-bottom:12px;flex-wrap:wrap;box-shadow:var(--shadow)}
   .fl-item{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted)}
   .fl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
   .fl-30{background:var(--f30)}.fl-10{background:var(--f10)}.fl-5{background:var(--f5)}.fl-0{background:var(--muted2)}
-
+ 
   /* TABLE */
   .nota{background:var(--baja-bg);border:1px solid var(--baja-bd);border-left:3px solid var(--baja);border-radius:0 6px 6px 0;padding:9px 13px;font-size:11.5px;color:var(--muted);margin-bottom:12px}
   .nota strong{color:var(--text)}
@@ -88,7 +88,7 @@
   td{padding:9px 11px;vertical-align:middle}
   td.emp{font-weight:600;max-width:190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text)}
   td.mono{font-family:'DM Mono',monospace;font-size:10.5px;color:var(--muted)}td.mut{color:var(--muted)}
-
+ 
   .pill{display:inline-block;padding:2px 7px;border-radius:4px;font-size:9.5px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:.02em;white-space:nowrap}
   .pa{background:var(--alta-bg);color:var(--alta);border:1px solid var(--alta-bd)}
   .pm{background:var(--media-bg);color:var(--media);border:1px solid var(--media-bd)}
@@ -98,14 +98,14 @@
   .pg2{background:var(--multi-bg);color:var(--multi);border:1px solid var(--multi-bd)}
   .pw{background:var(--warn-bg);color:var(--warn-text);border:1px solid var(--warn-bd);font-style:italic}
   .us{color:var(--alta);font-weight:700}.uso{color:var(--media);font-weight:700}.un{color:var(--rev)}
-
+ 
   /* FACTURACION BADGES */
   .f-hi{display:inline-flex;align-items:center;gap:4px;font-family:'DM Mono',monospace;font-size:10.5px;font-weight:700;white-space:nowrap}
   .f-30{color:var(--f30)}.f-10{color:var(--f10)}.f-5{color:var(--f5)}.f-low{color:var(--muted2)}
   .f-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;display:inline-block}
   .f-30 .f-dot{background:var(--f30)}.f-10 .f-dot{background:var(--f10)}.f-5 .f-dot{background:var(--f5)}.f-low .f-dot{background:var(--muted2)}
   .billing-own{display:inline-block;font-size:9px;font-family:'DM Mono',monospace;font-weight:700;color:var(--alta);background:var(--alta-bg);border:1px solid var(--alta-bd);border-radius:3px;padding:1px 5px;margin-left:3px}
-
+ 
   /* CS CARDS (PESTAÑA 2) */
   .cs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
   .csc{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
@@ -128,7 +128,7 @@
   .da{font-size:10px;color:var(--muted);white-space:nowrap}
   .dtag{font-size:9px;padding:1px 5px;border-radius:3px;font-family:'DM Mono',monospace;background:var(--surface);color:var(--muted);border:1px solid var(--border);white-space:nowrap;flex-shrink:0}
   .df{font-size:9.5px;font-family:'DM Mono',monospace;white-space:nowrap;font-weight:600}
-
+ 
   /* ENFOQUES */
   .enf-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
   .enf{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;box-shadow:var(--shadow)}
@@ -144,14 +144,14 @@
   .ec{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;box-shadow:var(--shadow)}
   .et{font-size:9.5px;font-weight:700;font-family:'DM Mono',monospace;color:var(--acc);margin-bottom:5px;letter-spacing:.06em}
   .ec p{font-size:11.5px;color:var(--muted);line-height:1.5}
-
+ 
   /* G2 BLOCKS */
   .g2-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .g2-block{background:var(--surface);border-radius:8px;padding:14px;box-shadow:var(--shadow)}
 </style>
 </head>
 <body>
-
+ 
 <header>
   <div>
     <div class="logo">Chipax · CRM Analytics · Datos reales HubSpot</div>
@@ -159,19 +159,19 @@
   </div>
   <div class="upd">Actualizado: 14 May 2026</div>
 </header>
-
+ 
 <!-- TAB NAV -->
 <div class="tab-nav">
   <button class="tnav-btn active" onclick="showTab('resumen',this)">📊 Resumen <span class="tab-count">4 Alta</span></button>
   <button class="tnav-btn" onclick="showTab('tabla',this)">📋 Tabla completa <span class="tab-count">40</span></button>
   <button class="tnav-btn" onclick="showTab('cs',this)">👤 Por ejecutiva <span class="tab-count">7 CS</span></button>
 </div>
-
+ 
 <main>
-
+ 
 <!-- ═══════════════════════════════════════════════ TAB 1: RESUMEN -->
 <div id="tab-resumen" class="tab-panel active">
-
+ 
   <section>
     <h2>Resumen ejecutivo</h2>
     <div class="kpi-row">
@@ -182,11 +182,11 @@
       <div class="kpi kr"><div class="kn">16</div><div class="kl">Revisar / No contactar</div><div class="ks">CS inactiva · churn &lt;90d</div></div>
     </div>
   </section>
-
+ 
   <section>
     <h2>Reglas de decisión</h2>
     <div class="rules">
-
+ 
       <div class="rule ralt">
         <div style="width:24px;height:24px;border-radius:6px;background:var(--alta-bg);border:1px solid var(--alta-bd);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px">🟢</div>
         <div class="rt">
@@ -200,7 +200,7 @@
           </ul>
         </div>
       </div>
-
+ 
       <div class="rule rmed">
         <div style="width:24px;height:24px;border-radius:6px;background:var(--media-bg);border:1px solid var(--media-bd);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px">🟡</div>
         <div class="rt">
@@ -214,7 +214,7 @@
           </ul>
         </div>
       </div>
-
+ 
       <div class="rule rbaj">
         <div style="width:24px;height:24px;border-radius:6px;background:var(--baja-bg);border:1px solid var(--baja-bd);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px">🔵</div>
         <div class="rt">
@@ -227,7 +227,7 @@
           </ul>
         </div>
       </div>
-
+ 
       <div class="rule rno">
         <div style="width:24px;height:24px;border-radius:6px;background:var(--rev-bg);border:1px solid var(--rev-bd);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px">🔴</div>
         <div class="rt">
@@ -240,7 +240,7 @@
           </ul>
         </div>
       </div>
-
+ 
       <div class="rule rmon">
         <div style="width:24px;height:24px;border-radius:6px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px">⏸️</div>
         <div class="rt">
@@ -252,7 +252,7 @@
           </ul>
         </div>
       </div>
-
+ 
       <div class="rule rmul">
         <div style="width:24px;height:24px;border-radius:6px;background:var(--multi-bg);border:1px solid var(--multi-bd);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px">🔗</div>
         <div class="rt">
@@ -266,19 +266,19 @@
           </ul>
         </div>
       </div>
-
+ 
     </div>
   </section>
-
+ 
 </div><!-- /tab-resumen -->
-
-
+ 
+ 
 <!-- ═══════════════════════════════════════════════ TAB 2: TABLA -->
 <div id="tab-tabla" class="tab-panel">
-
+ 
   <section>
     <h2>Tabla completa — datos reales HubSpot</h2>
-
+ 
     <div class="fact-legend">
       <span style="font-size:10px;font-weight:600;color:var(--muted);margin-right:4px">FACTURACIÓN:</span>
       <div class="fl-item"><span class="fl-dot fl-30"></span> &gt;$30M — alta capacidad</div>
@@ -287,9 +287,9 @@
       <div class="fl-item"><span class="fl-dot fl-0"></span> &lt;$5M — por debajo del umbral</div>
       <div class="fl-item" style="margin-left:8px;padding-left:8px;border-left:1px solid var(--border)"><span class="billing-own">billing ✓</span> empresa hija con facturación propia &gt;$5M en SII</div>
     </div>
-
+ 
     <div class="nota"><strong>Uso post-Free:</strong> Sólo válido si <code>last_match_date</code> &gt; <code>inicio_free</code>. Conciliaciones anteriores son del plan pago, no señal de intención actual. · <strong>⚠️ BlancaEstudio:</strong> last_match anterior a inicio_free — verificar dato.</div>
-
+ 
     <div class="fb-row">
       <span style="font-size:10px;color:var(--muted);margin-right:2px">Filtrar:</span>
       <button class="fb active" onclick="ft('all',this)">Todos</button>
@@ -300,7 +300,7 @@
       <button class="fb fg1" onclick="ft('g1',this)">Grupo 1</button>
       <button class="fb fg2" onclick="ft('g2',this)">Grupo 2</button>
     </div>
-
+ 
     <div class="tw"><table id="T">
       <thead><tr>
         <th>Empresa</th><th>Grupo</th><th>CS</th><th>Prioridad</th>
@@ -309,7 +309,7 @@
         <th>Facturación 90d</th><th>Razón churn</th><th>Acción</th>
       </tr></thead>
       <tbody>
-
+ 
 <!-- ALTA -->
 <tr data-p="alta" data-g="g1">
   <td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/21150557090" target="_blank">REVOLUTION PET SpA</a></td>
@@ -343,7 +343,7 @@
   <td><span class="f-hi f-30"><span class="f-dot"></span>$26.7M</span></td>
   <td class="mut">Precio</td><td class="mut">Uso confirmado post-Free</td>
 </tr>
-
+ 
 <!-- MEDIA -->
 <tr data-p="media" data-g="g2">
   <td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/43540816249" target="_blank">GRUPO AVANZA SPA</a></td>
@@ -393,7 +393,7 @@
   <td><span class="f-hi f-5"><span class="f-dot"></span>$5.6M</span><span class="billing-own">billing ✓</span></td>
   <td class="mut">—</td><td class="mut">Asignar CS — uso activo</td>
 </tr>
-
+ 
 <!-- BAJA -->
 <tr data-p="baja" data-g="g1">
   <td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/4721465222" target="_blank">Comercial Pedehue</a></td>
@@ -547,7 +547,7 @@
   <td><span class="f-hi f-5"><span class="f-dot"></span>$6.4M</span><span class="billing-own">billing ✓</span></td>
   <td class="mut">—</td><td class="mut">Sin actividad reciente</td>
 </tr>
-
+ 
 <!-- REVISAR -->
 <tr data-p="rev" data-g="g1">
   <td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/32949152617" target="_blank">El Fogon de Pepe</a></td>
@@ -637,7 +637,7 @@
   <td><span class="f-hi f-low"><span class="f-dot"></span>$0</span></td>
   <td class="mut">Prob. financieros</td><td class="mut">Activo hoy pero fact. cero</td>
 </tr>
-
+ 
 <tr data-p="rev" data-g="g1">
   <td class="emp"><a href="https://app.hubspot.com/contacts/3217982/record/0-3/34353848874" target="_blank">PampaLab</a> <span style="font-size:9px;background:#fef3c7;color:#92400e;border:1px solid #fcd34d;border-radius:3px;padding:1px 5px;font-family:'DM Mono',monospace;font-weight:700">NUEVO</span></td>
   <td><span class="pill pg1">G1</span></td><td class="mut"><span class="pill pw">Javiera ⚠️</span></td><td><span class="pill pr">REVISAR</span></td>
@@ -662,20 +662,20 @@
   <td><span class="f-hi f-low"><span class="f-dot"></span>$4.6M</span></td>
   <td class="mut">—</td><td class="mut">&lt;90d + sin CS — monitorear hasta 21 May</td>
 </tr>
-
+ 
       </tbody>
     </table></div>
   </section>
-
+ 
 </div><!-- /tab-tabla -->
-
-
+ 
+ 
 <!-- ═══════════════════════════════════════════════ TAB 3: POR EJECUTIVA -->
 <div id="tab-cs" class="tab-panel">
   <section>
     <h2>Por ejecutiva CS</h2>
     <div class="cs-grid">
-
+ 
       <!-- ── MJ IBARRA ── -->
       <div class="csc">
         <div class="csh">
@@ -703,7 +703,7 @@
           <div class="dr"><div class="dot r"></div><span class="dn">Jardín de Joyas</span><span class="f-hi f-low" style="font-size:9.5px"><span class="f-dot"></span>$1.3M</span><span class="da">Sin actividad</span></div>
         </div>
       </div>
-
+ 
       <!-- ── JHOANY DÍAZ ── -->
       <div class="csc">
         <div class="csh">
@@ -720,7 +720,7 @@
           <div class="dr"><div class="dot r"></div><span class="dn">76.726.189-6</span><span class="f-hi f-10" style="font-size:9.5px"><span class="f-dot"></span>$13.8M</span><span class="da">&lt;90d + CS inactiva</span></div>
         </div>
       </div>
-
+ 
       <!-- ── SOFÍA DEPETRIS ── -->
       <div class="csc">
         <div class="csh">
@@ -744,7 +744,7 @@
           <div class="dr" style="border-color:var(--warn-bd)"><div class="dot r"></div><span class="dn">Cerro Tronador</span><span class="f-hi f-10" style="font-size:9.5px"><span class="f-dot"></span>$10.7M</span><span class="da">G2 ✓ — reasignar Wally</span></div>
         </div>
       </div>
-
+ 
       <!-- ── SIN CS ASIGNADO ── -->
       <div class="csc" style="border-top:3px solid var(--baja)">
         <div class="csh" style="background:var(--baja-bg)">
@@ -764,7 +764,7 @@
           <div class="dr"><div class="dot r"></div><span class="dn">V y A Ltda 🆕</span><span class="f-hi f-low" style="font-size:9.5px"><span class="f-dot"></span>$4.6M</span><span class="da">G2~ · &lt;90d</span></div>
         </div>
       </div>
-
+ 
       <!-- ── ROMINA LAGOS ── -->
       <div class="csc">
         <div class="csh">
@@ -776,7 +776,7 @@
           <div class="dr"><div class="dot a"></div><span class="dn">Franutrisport y Abarca 🆕↑</span><span class="f-hi f-30" style="font-size:9.5px"><span class="f-dot"></span>$38.9M</span><span class="da">Acaba de cumplir 90d</span></div>
         </div>
       </div>
-
+ 
       <!-- ── JAVIERA ORTEGA — INACTIVA ── -->
       <div class="csc inac">
         <div class="csh inac">
@@ -791,7 +791,7 @@
           <div class="dr"><div class="dot r"></div><span class="dn">PampaLab 🆕</span><span class="f-hi f-low" style="font-size:9.5px"><span class="f-dot"></span>$1.2M</span><span class="da">&lt;90d + CS inactiva</span></div>
         </div>
       </div>
-
+ 
       <!-- ── WALLY NOGUERA — INACTIVA ── -->
       <div class="csc" style="border-top:3px solid var(--warn-text);border-color:var(--warn-bd)">
         <div class="csh" style="background:var(--warn-bg)">
@@ -804,13 +804,13 @@
           <div class="dr"><div class="dot r"></div><span class="dn">Servicios FinDuo III</span><span class="f-hi f-low" style="font-size:9.5px"><span class="f-dot"></span>$4.2M</span><span class="da">G2 ✓</span></div>
         </div>
       </div>
-
+ 
     </div>
   </section>
 </div><!-- /tab-cs -->
-
+ 
 </main>
-
+ 
 <script>
 function showTab(id, btn) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
